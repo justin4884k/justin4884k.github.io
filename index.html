@@ -27,19 +27,29 @@
             padding: 0 20px;
         }
 
-        header {
+         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
-            padding: 20px 0;
+            padding: 10px 0;
             position: fixed;
             width: 100%;
             z-index: 1000;
         }
 
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
         }
 
         nav ul {
@@ -197,17 +207,21 @@
     </style>
 </head>
 <body>
-    <header>
+   <header>
         <div class="container">
-            <div class="logo">EduVista</div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#programs">Programs</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="logo.png" alt="EduVista Logo">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -323,7 +337,7 @@
         });
 
         // GSAP animations (unchanged)
-        gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
+       gsap.from('.logo img', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
         gsap.from('nav ul li', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'power3.out'});
         gsap.from('.hero-content', {duration: 1, y: 50, opacity: 0, ease: 'power3.out', delay: 0.5});
         gsap.from('.program-card', {duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: 'power3.out', scrollTrigger: {
