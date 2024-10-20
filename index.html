@@ -287,17 +287,42 @@
             });
         }
 
-        function onPlayerReady(event) {
-            event.target.playVideo();
-            event.target.mute();
-        }
-
-        function onPlayerStateChange(event) {
+           function onPlayerStateChange(event) {
             if (event.data === YT.PlayerState.ENDED) {
-                player.playVideo();
+                playVideo();
+            }
+            // If the video is paused, try to play it again
+            if (event.data === YT.PlayerState.PAUSED) {
+                playVideo();
             }
         }
 
+        function playVideo() {
+            if (attempts < maxAttempts) {
+                player.playVideo();
+                attempts++;
+                // Check if the video is actually playing after a short delay
+                setTimeout(function() {
+                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                        playVideo();
+                    } else {
+                        attempts = 0; // Reset attempts if successful
+                    }
+                }, 1000);
+            } else {
+                console.log("Failed to autoplay video after " + maxAttempts + " attempts");
+                // Here you could implement a fallback, like showing a static image
+            }
+        }
+
+        // Attempt to play the video every time it becomes visible
+        document.addEventListener("visibilitychange", function() {
+            if (!document.hidden) {
+                playVideo();
+            }
+        });
+
+        // GSAP animations (unchanged)
         gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
         gsap.from('nav ul li', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'power3.out'});
         gsap.from('.hero-content', {duration: 1, y: 50, opacity: 0, ease: 'power3.out', delay: 0.5});
