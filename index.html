@@ -74,7 +74,7 @@
             overflow: hidden;
         }
 
-        .hero-video {
+        #youtube-player {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -84,6 +84,7 @@
             height: auto;
             transform: translateX(-50%) translateY(-50%);
             z-index: -1;
+            pointer-events: none;
         }
 
         .hero-overlay {
@@ -93,12 +94,12 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            z-index: 0;
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .hero h1 {
@@ -211,13 +212,11 @@
     </header>
 
     <section id="home" class="hero">
-        <div class="hero-video">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Gb1qLdx8fvQ?autoplay=1&mute=1&controls=0&loop=1&playlist=Gb1qLdx8fvQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+        <div id="youtube-player"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Your Gateway to Advanced Technology Education</h1>
-            <p>Exclusive partnership with [University Name] for international students</p>
+            <p>Exclusive partnership with Houston Christian University for international students</p>
             <a href="#contact" class="btn">Get Started</a>
         </div>
     </section>
@@ -227,19 +226,19 @@
             <h2>Our Programs at Houston Christian University</h2>
             <div class="program-grid">
                 <div class="program-card">
-                    <h3>M.S in Data Science</h3>
+                    <h3>MS in Data Science</h3>
                     <p>Available Now</p>
                 </div>
                 <div class="program-card">
-                    <h3>M.S in Cyber Security</h3>
+                    <h3>MS in Cyber Security</h3>
                     <p>Available Now</p>
                 </div>
                 <div class="program-card">
-                    <h3>M.S in Artificial Intelligence</h3>
+                    <h3>MS in Artificial Intelligence</h3>
                     <p>Coming Soon</p>
                 </div>
                 <div class="program-card">
-                    <h3>M.S in Computer & Information Technology</h3>
+                    <h3>MS in Computer & Information Technology</h3>
                     <p>Coming Soon</p>
                 </div>
             </div>
@@ -250,7 +249,7 @@
         <div class="container about-content">
             <div class="about-text">
                 <h2>About EduVista</h2>
-                <p>Founded in 2024, EduVista has established an exclusive partnership with Houston Christian University to connect talented international students with their advanced technology programs. Our mission is to empower the next generation of global tech leaders by providing streamlined access to Houston Christian University's world-class education and opportunities.</p>
+                <p>Founded in 2015, EduVista has established an exclusive partnership with Houston Christian University to connect talented international students with their advanced technology programs. Our mission is to empower the next generation of global tech leaders by providing streamlined access to Houston Christian University's world-class education and opportunities.</p>
             </div>
             <div class="about-image">
                 <img src="/api/placeholder/400/300" alt="EduVista Team">
@@ -264,7 +263,41 @@
         </div>
     </footer>
 
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                videoId: 'Gb1qLdx8fvQ',
+                playerVars: {
+                    autoplay: 1,
+                    loop: 1,
+                    controls: 0,
+                    showinfo: 0,
+                    autohide: 1,
+                    modestbranding: 1,
+                    vq: 'hd1080',
+                    mute: 1,
+                    playlist: 'Gb1qLdx8fvQ'
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+            event.target.mute();
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                player.playVideo();
+            }
+        }
+
         gsap.from('.logo', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
         gsap.from('nav ul li', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'power3.out'});
         gsap.from('.hero-content', {duration: 1, y: 50, opacity: 0, ease: 'power3.out', delay: 0.5});
