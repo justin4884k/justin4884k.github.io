@@ -27,7 +27,7 @@
             padding: 0 20px;
         }
 
-         header {
+        header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
             padding: 10px 0;
@@ -55,11 +55,11 @@
         nav ul {
             list-style-type: none;
             padding: 0;
+            display: flex;
         }
 
         nav ul li {
-            display: inline;
-            margin: 0 10px;
+            margin-left: 20px;
         }
 
         nav ul li a {
@@ -84,7 +84,7 @@
             overflow: hidden;
         }
 
-        #youtube-player {
+        .hero-video {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -94,7 +94,7 @@
             height: auto;
             transform: translateX(-50%) translateY(-50%);
             z-index: -1;
-            pointer-events: none;
+            object-fit: cover;
         }
 
         .hero-overlay {
@@ -207,7 +207,7 @@
     </style>
 </head>
 <body>
-   <header>
+    <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
@@ -226,7 +226,10 @@
     </header>
 
     <section id="home" class="hero">
-        <div id="youtube-player"></div>
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="hero.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Your Gateway to Advanced Technology Education</h1>
@@ -277,67 +280,8 @@
         </div>
     </footer>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                videoId: 'Gb1qLdx8fvQ',
-                playerVars: {
-                    autoplay: 1,
-                    loop: 1,
-                    controls: 0,
-                    showinfo: 0,
-                    autohide: 1,
-                    modestbranding: 1,
-                    vq: 'hd1080',
-                    mute: 1,
-                    playlist: 'Gb1qLdx8fvQ'
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-           function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                playVideo();
-            }
-            // If the video is paused, try to play it again
-            if (event.data === YT.PlayerState.PAUSED) {
-                playVideo();
-            }
-        }
-
-        function playVideo() {
-            if (attempts < maxAttempts) {
-                player.playVideo();
-                attempts++;
-                // Check if the video is actually playing after a short delay
-                setTimeout(function() {
-                    if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                        playVideo();
-                    } else {
-                        attempts = 0; // Reset attempts if successful
-                    }
-                }, 1000);
-            } else {
-                console.log("Failed to autoplay video after " + maxAttempts + " attempts");
-                // Here you could implement a fallback, like showing a static image
-            }
-        }
-
-        // Attempt to play the video every time it becomes visible
-        document.addEventListener("visibilitychange", function() {
-            if (!document.hidden) {
-                playVideo();
-            }
-        });
-
-        // GSAP animations (unchanged)
-       gsap.from('.logo img', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
+        gsap.from('.logo img', {duration: 1, y: -50, opacity: 0, ease: 'power3.out'});
         gsap.from('nav ul li', {duration: 1, y: -50, opacity: 0, stagger: 0.2, ease: 'power3.out'});
         gsap.from('.hero-content', {duration: 1, y: 50, opacity: 0, ease: 'power3.out', delay: 0.5});
         gsap.from('.program-card', {duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: 'power3.out', scrollTrigger: {
